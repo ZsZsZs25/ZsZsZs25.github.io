@@ -9,15 +9,15 @@
     <meta name="referrer" content="no-referrer-when-downgrade">
     
 
-    <title> | 飞雪无情的博客</title>
-    <meta property="og:title" content=" - 飞雪无情的博客">
+    <title> | ZsZsZs</title>
+    <meta property="og:title" content=" - ZsZsZs">
     <meta property="og:type" content="article">
         
         
-    <meta name="Keywords" content="golang,go语言,go语言笔记,飞雪无情,java,android,博客,项目管理,python,软件架构,公众号,小程序">
+    <meta name="Keywords" content="菜">
     <meta name="description" content="">
         
-    <meta name="author" content="飞雪无情">
+    <meta name="author" content="ZsZsZs">
     <meta property="og:url" content="https://ZsZsZs25.github.io/search/">
     <link rel="shortcut icon" href='/favicon.ico'  type="image/x-icon">
 
@@ -27,6 +27,8 @@
 
     
     
+    
+        <link href="https://cdn.bootcdn.net/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.css" rel="stylesheet">
     
     
     
@@ -45,18 +47,20 @@
             <div class="site-name ">
                 
                     <a id="logo" href="https://ZsZsZs25.github.io">
-                        飞雪无情的博客
+                        ZsZsZs
                     </a>
                 
-                <p class="description">专注于Android、Java、Go语言(golang)、移动互联网、项目管理、软件架构</p>
+                <p class="description">我是真的菜！</p>
             </div>
             <div>
                 <nav id="nav-menu" class="clearfix">
                     <a class="" href="https://ZsZsZs25.github.io">首页</a>
                     
-                    <a  href="https://ZsZsZs25.github.io/tools/" title="工具">工具</a>
+                    <a  href="https://ZsZsZs25.github.io/post/" title="博客">博客</a>
                     
-                    <a  href="https://ZsZsZs25.github.io/archives/" title="归档">归档</a>
+                    <a  href="https://ZsZsZs25.github.io/categories/" title="分类">分类</a>
+                    
+                    <a  href="https://ZsZsZs25.github.io/tags/" title="标签">标签</a>
                     
                     <a  href="https://ZsZsZs25.github.io/about/" title="关于">关于</a>
                     
@@ -73,100 +77,7 @@
                 <div class="col-8" id="main">
                     
 <div class="res-cons">
-    <style type="text/css">
-    .post-toc {
-        position: fixed;
-        width: 200px;
-        margin-left: -210px;
-        padding: 5px 10px;
-        font-family: Athelas, STHeiti, Microsoft Yahei, serif;
-        font-size: 12px;
-        border: 1px solid rgba(0, 0, 0, .07);
-        border-radius: 5px;
-        background-color: rgba(255, 255, 255, 0.98);
-        background-clip: padding-box;
-        -webkit-box-shadow: 1px 1px 2px rgba(0, 0, 0, .125);
-        box-shadow: 1px 1px 2px rgba(0, 0, 0, .125);
-        word-wrap: break-word;
-        white-space: nowrap;
-        -webkit-box-sizing: border-box;
-        box-sizing: border-box;
-        z-index: 999;
-        cursor: pointer;
-        max-height: 70%;
-        overflow-y: auto;
-        overflow-x: hidden;
-    }
-
-    .post-toc .post-toc-title {
-        width: 100%;
-        margin: 0 auto;
-        font-size: 20px;
-        font-weight: 400;
-        text-transform: uppercase;
-        text-align: center;
-    }
-
-    .post-toc .post-toc-content {
-        font-size: 15px;
-    }
-
-    .post-toc .post-toc-content>nav>ul {
-        margin: 10px 0;
-    }
-
-    .post-toc .post-toc-content ul {
-        padding-left: 20px;
-        list-style: square;
-        margin: 0.5em;
-        line-height: 1.8em;
-    }
-
-    .post-toc .post-toc-content ul ul {
-        padding-left: 15px;
-        display: none;
-    }
-
-    @media print,
-    screen and (max-width:1057px) {
-        .post-toc {
-            display: none;
-        }
-    }
-</style>
-<div class="post-toc" style="position: absolute; top: 188px;">
-    <h2 class="post-toc-title">文章目录</h2>
-    <div class="post-toc-content">
-        <nav id="TableOfContents"></nav>
-    </div>
-</div>
-<script type="text/javascript">
-    $(document).ready(function () {
-        var postToc = $(".post-toc");
-        if (postToc.length) {
-            var leftPos = $("#main").offset().left;
-            if(leftPos<220){
-                postToc.css({"width":leftPos-10,"margin-left":(0-leftPos)})
-            }
-
-            var t = postToc.offset().top - 20,
-                a = {
-                    start: {
-                        position: "absolute",
-                        top: t
-                    },
-                    process: {
-                        position: "fixed",
-                        top: 20
-                    },
-                };
-            $(window).scroll(function () {
-                var e = $(window).scrollTop();
-                e < t ? postToc.css(a.start) : postToc.css(a.process)
-            })
-        }
-    })
-</script>
+    
     <article class="post">
         <header>
             <h1 class="post-title"></h1>
@@ -204,7 +115,7 @@ type: &quot;search&quot;
         
         <li><a href="/post/test/">Test</a></li>
         
-        <li><a href="/about/">文章标题</a></li>
+        <li><a href="/about/">关于我</a></li>
         
     </ul>
 </div>
@@ -230,7 +141,7 @@ type: &quot;search&quot;
             return;
         }
         var d = document, s = d.createElement('script'); s.async = true;
-        s.src = '//' + "yourdiscussshortname" + '.disqus.com/embed.js';
+        s.src = '//' + "ZsZsZs" + '.disqus.com/embed.js';
         s.setAttribute('data-timestamp', +new Date());
         (d.head || d.body).appendChild(s);
     })();
@@ -240,21 +151,11 @@ type: &quot;search&quot;
 
     
     
-    <div class="post bg-white">
-      <script src="https://utteranc.es/client.js"
-            repo= "your github repo"
-            issue-term="pathname"
-            theme="github-light"
-            crossorigin="anonymous"
-            async>
-      </script>
-    </div>
-    
 </div>
 
                     <footer id="footer">
     <div>
-        &copy; 2021 <a href="https://ZsZsZs25.github.io">飞雪无情的博客 By 飞雪无情</a>
+        &copy; 2021 <a href="https://ZsZsZs25.github.io">ZsZsZs By ZsZsZs</a>
         
     </div>
     <br />
@@ -281,10 +182,21 @@ type: &quot;search&quot;
                 }
             };
     </script>
-    <script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML' async></script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML' async></script><script src="https://cdn.bootcdn.net/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.js"></script>
 
 <a id="rocket" href="#top"></a>
 <script type="text/javascript" src='/js/totop.js?v=0.0.0' async=""></script>
+
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'GA ID', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
 
 
 
@@ -328,25 +240,25 @@ type: &quot;search&quot;
     <ul class="widget-list">
         
         <li>
-            <a href="https://www.aliyun.com/minisite/goods?userCode=jdg9oj97&amp;share_source=copy_link" title="【2019双12】ALL IN CLoud 低至1折" target="_blank" style="color:red">
+            <a href="" title="" target="_blank" style="color:red">
                 
-                    <img src="https://img.alicdn.com/tfs/TB1_rYHo7P2gK0jSZPxXXacQpXa-690-388.jpg">
-                
-            </a>
-        </li>
-        
-        <li>
-            <a href="https://cloud.tencent.com/act/cps/redirect?redirect=1048&amp;cps_key=14ff722692ac784fa8c3301c8c28d924&amp;from=console" title="助力产业智慧升级，云服务器首年88元起，更有千元代金券礼包免费领！" target="_blank" style="color:red">
-                
-                    <img src="https://upload-dianshi-1255598498.file.myqcloud.com/345-7c71532bd4935fbdd9a67c1a71e577b1767b805c.200%E7%89%88%E6%9C%ACB.jpg">
+                    
                 
             </a>
         </li>
         
         <li>
-            <a href="https://www.aliyun.com/acts/limit-buy?userCode=jdg9oj97" title="【渠道专享低折扣】11月特惠 限时2折" target="_blank" style="color:red">
+            <a href="" title="" target="_blank" style="color:red">
                 
-                    <img src="https://img.alicdn.com/tfs/TB1hblJl7Y2gK0jSZFgXXc5OFXa-750-400.jpg">
+                    
+                
+            </a>
+        </li>
+        
+        <li>
+            <a href="" title="" target="_blank" style="color:red">
+                
+                    
                 
             </a>
         </li>
@@ -383,11 +295,11 @@ type: &quot;search&quot;
     <ul class="widget-list">
         
         <li>
-            <a target="_blank" href="https://www.flysnow.org/" title="飞雪无情的博客">飞雪无情的博客</a>
+            <a target="_blank" href="" title=""></a>
         </li>
         
         <li>
-            <a target="_blank" href="http://yuedu.baidu.com/ebook/14a722970740be1e640e9a3e" title="Android Gradle权威指南">Android Gradle权威指南</a>
+            <a target="_blank" href="" title=""></a>
         </li>
         
     </ul>
