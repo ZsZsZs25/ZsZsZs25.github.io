@@ -1,18 +1,28 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>ZsZsZs on ZsZsZs</title>
-    <link>http://example.org/</link>
+    <link>https://github.com/ZsZsZs25/ZsZsZs25.github.io.git/</link>
     <description>Recent content in ZsZsZs on ZsZsZs</description>
     <generator>Hugo -- gohugo.io</generator>
-    <language>en-us</language>
-    <atom:link href="http://example.org/" rel="self" type="application/rss+xml" />
+    <language>zh-cn</language>
+    <lastBuildDate>Fri, 05 Feb 2021 14:02:41 +0800</lastBuildDate>
+    <atom:link href="https://github.com/ZsZsZs25/ZsZsZs25.github.io.git/" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Posts</title>
+      <link>https://github.com/ZsZsZs25/ZsZsZs25.github.io.git/post/</link>
+      <pubDate>Fri, 05 Feb 2021 14:02:41 +0800</pubDate>
+      
+      <guid>https://github.com/ZsZsZs25/ZsZsZs25.github.io.git/post/</guid>
+      <description></description>
+    </item>
     
     <item>
       <title>文章标题</title>
-      <link>http://example.org/about/</link>
+      <link>https://github.com/ZsZsZs25/ZsZsZs25.github.io.git/about/</link>
       <pubDate>Fri, 05 Feb 2021 11:18:10 +0800</pubDate>
       
-      <guid>http://example.org/about/</guid>
+      <guid>https://github.com/ZsZsZs25/ZsZsZs25.github.io.git/about/</guid>
       <description></description>
     </item>
     

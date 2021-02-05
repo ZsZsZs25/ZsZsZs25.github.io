@@ -2,7 +2,37 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
     <url>
-      <loc>http://example.org/about/</loc>
+      <loc>https://github.com/ZsZsZs25/ZsZsZs25.github.io.git/post/</loc>
+      
+      <lastmod>2021-02-05T14:02:41+08:00</lastmod>
+      
+      
+      
+      
+    </url>
+  
+    <url>
+      <loc>https://github.com/ZsZsZs25/ZsZsZs25.github.io.git/post/test/</loc>
+      
+      <lastmod>2021-02-05T14:02:41+08:00</lastmod>
+      
+      
+      
+      
+    </url>
+  
+    <url>
+      <loc>https://github.com/ZsZsZs25/ZsZsZs25.github.io.git/</loc>
+      
+      <lastmod>2021-02-05T14:02:41+08:00</lastmod>
+      
+      
+      
+      
+    </url>
+  
+    <url>
+      <loc>https://github.com/ZsZsZs25/ZsZsZs25.github.io.git/about/</loc>
       
       <lastmod>2021-02-05T11:18:10+08:00</lastmod>
       
@@ -12,7 +42,7 @@
     </url>
   
     <url>
-      <loc>http://example.org/categories/</loc>
+      <loc>https://github.com/ZsZsZs25/ZsZsZs25.github.io.git/categories/</loc>
       
       
       
@@ -20,15 +50,7 @@
     </url>
   
     <url>
-      <loc>http://example.org/tags/</loc>
-      
-      
-      
-      
-    </url>
-  
-    <url>
-      <loc>http://example.org/</loc>
+      <loc>https://github.com/ZsZsZs25/ZsZsZs25.github.io.git/tags/</loc>
       
       
       
