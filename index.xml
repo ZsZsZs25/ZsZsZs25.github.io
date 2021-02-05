@@ -1,20 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>ZsZsZs on ZsZsZs</title>
+    <title>ZsZsZs</title>
     <link>https://ZsZsZs25.github.io/</link>
-    <description>Recent content in ZsZsZs on ZsZsZs</description>
+    <description>Recent content on ZsZsZs</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Fri, 05 Feb 2021 14:02:41 +0800</lastBuildDate>
-    <atom:link href="https://ZsZsZs25.github.io/" rel="self" type="application/rss+xml" />
-    
+    <lastBuildDate>Fri, 05 Feb 2021 14:02:41 +0800</lastBuildDate><atom:link href="https://ZsZsZs25.github.io/index.xml" rel="self" type="application/rss+xml" />
     <item>
-      <title>Posts</title>
-      <link>https://ZsZsZs25.github.io/post/</link>
+      <title>Test</title>
+      <link>https://ZsZsZs25.github.io/post/test/</link>
       <pubDate>Fri, 05 Feb 2021 14:02:41 +0800</pubDate>
       
-      <guid>https://ZsZsZs25.github.io/post/</guid>
-      <description></description>
+      <guid>https://ZsZsZs25.github.io/post/test/</guid>
+      <description>二级标题 测试测试 测试测试 测试测试 $LLLLL$ $$ LLLLL,\tag{1} $$</description>
     </item>
     
     <item>
