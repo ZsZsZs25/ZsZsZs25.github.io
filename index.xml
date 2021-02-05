@@ -1,28 +1,28 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>ZsZsZs on ZsZsZs</title>
-    <link>https://github.com/ZsZsZs25/ZsZsZs25.github.io.git/</link>
+    <link>https://ZsZsZs25.github.io/</link>
     <description>Recent content in ZsZsZs on ZsZsZs</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
     <lastBuildDate>Fri, 05 Feb 2021 14:02:41 +0800</lastBuildDate>
-    <atom:link href="https://github.com/ZsZsZs25/ZsZsZs25.github.io.git/" rel="self" type="application/rss+xml" />
+    <atom:link href="https://ZsZsZs25.github.io/" rel="self" type="application/rss+xml" />
     
     <item>
       <title>Posts</title>
-      <link>https://github.com/ZsZsZs25/ZsZsZs25.github.io.git/post/</link>
+      <link>https://ZsZsZs25.github.io/post/</link>
       <pubDate>Fri, 05 Feb 2021 14:02:41 +0800</pubDate>
       
-      <guid>https://github.com/ZsZsZs25/ZsZsZs25.github.io.git/post/</guid>
+      <guid>https://ZsZsZs25.github.io/post/</guid>
       <description></description>
     </item>
     
     <item>
       <title>文章标题</title>
-      <link>https://github.com/ZsZsZs25/ZsZsZs25.github.io.git/about/</link>
+      <link>https://ZsZsZs25.github.io/about/</link>
       <pubDate>Fri, 05 Feb 2021 11:18:10 +0800</pubDate>
       
-      <guid>https://github.com/ZsZsZs25/ZsZsZs25.github.io.git/about/</guid>
+      <guid>https://ZsZsZs25.github.io/about/</guid>
       <description></description>
     </item>
     

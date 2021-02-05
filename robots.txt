@@ -63,4 +63,4 @@ Disallow: /
 User-agent: ZoominfoBot
 Disallow: /
 
-Sitemap: https://github.com/ZsZsZs25/ZsZsZs25.github.io.git/sitemap.xml
+Sitemap: https://ZsZsZs25.github.io/sitemap.xml
