@@ -9,13 +9,13 @@
     <meta name="referrer" content="no-referrer-when-downgrade">
     
 
-    <title> | ZsZsZs</title>
-    <meta property="og:title" content=" - ZsZsZs">
+    <title>搜索 | ZsZsZs</title>
+    <meta property="og:title" content="搜索 - ZsZsZs">
     <meta property="og:type" content="article">
         
         
     <meta name="Keywords" content="菜">
-    <meta name="description" content="">
+    <meta name="description" content="搜索页面">
         
     <meta name="author" content="ZsZsZs">
     <meta property="og:url" content="https://ZsZsZs25.github.io/search/">
@@ -32,10 +32,6 @@
     
     
     
-    
-        <link rel="stylesheet" href='/css/douban.css'>
-    
-        <link rel="stylesheet" href='/css/other.css'>
     
 </head>
 
@@ -77,75 +73,71 @@
                 <div class="col-8" id="main">
                     
 <div class="res-cons">
-    
+    <h3 class="archive-title">
+        搜索
+        <span class="keyword">哈哈</span>
+        的结果
+    </h3>
+
     <article class="post">
         <header>
-            <h1 class="post-title"></h1>
+            <h1 class="post-title">
+                <a href="链接">标题</a>
+            </h1>
         </header>
         <date class="post-meta meta-date">
-            1年1月1日
+            2019年12月01日
         </date>
-        
-        
-        <div class="post-meta">
-            <span id="busuanzi_container_page_pv">|<span id="busuanzi_value_page_pv"></span><span>
-                    阅读</span></span>
-        </div>
-        
-		<span class="post-word-count">, 8 words</span>
-        
         <div class="post-content">
-            <pre><code>---
-title: &quot;搜索&quot;
-description: &quot;搜索页面&quot;
-type: &quot;search&quot;
----
-</code></pre>
-        </div>
-
-        
-
-
-        
-
-<div class="post-archive">
-    <h2>其它文章</h2>
-    <ul class="listing">
-        
-        <li><a href="/post/code/">Code</a></li>
-        
-        <li><a href="/post/python/">Python</a></li>
-        
-        <li><a href="/post/test/">Test</a></li>
-        
-        <li><a href="/about/">关于我</a></li>
-        
-    </ul>
-</div>
-
-
-        <div class="post-meta meta-tags">
-            
-            没有标签
-            
+            概要……
+            <p class="readmore"><a href="链接">阅读全文</a></p>
         </div>
     </article>
-    
-    
 
-    
-    
-    <div class="post bg-white">
-      <script src="https://utteranc.es/client.js"
-            repo= "ZsZsZs25/ZsZsZs25.github.io"
-            issue-term="pathname"
-            theme="github-light"
-            crossorigin="anonymous"
-            async>
-      </script>
-    </div>
-    
 </div>
+
+<script type="text/javascript">
+
+    var getUrlParameter = function getUrlParameter(sParam) {
+        var sPageURL = window.location.search.substring(1),
+            sURLVariables = sPageURL.split('&'),
+            sParameterName,
+            i;
+
+        for (i = 0; i < sURLVariables.length; i++) {
+            sParameterName = sURLVariables[i].split('=');
+
+            if (sParameterName[0] === sParam) {
+                return sParameterName[1] === undefined ? true : decodeURIComponent(sParameterName[1]);
+            }
+        }
+    };
+
+    $(document).ready(function () {
+        var q = getUrlParameter("q");
+        $("span.keyword").text(q);
+        $("article.post").remove();
+        $.ajax({
+            url: 'https:\/\/ZsZsZs25.github.io\/index.xml',
+            dataType: "xml",
+            success: function (data) {
+                $(data).find("item").each(function () {
+                    var item = $(this);
+                    var title = item.find("title").text();
+                    if (title.toLowerCase().indexOf(q.toLowerCase()) >= 0) {
+                        var url = item.find("link").text();
+                        var searchItem = `<article class="post"><header><h1 class="post-title"><a href="` + url + `">` + title + `</a></h1></header>`;
+                        var pubDate = new Date(item.find("pubDate").text())
+                        searchItem += `<date class="post-meta meta-date">` + pubDate.getFullYear() + `年` + (pubDate.getMonth() + 1) + `月` + pubDate.getDate() + `日</date>`;
+                        searchItem += `<div class="post-content">` + item.find("description").text() + `……<p class="readmore"><a href="` + url + `">阅读全文</a></p></div></article>`;
+
+                        $("div.res-cons").append(searchItem);
+                    }
+                });
+            }
+        });
+    });
+</script>
 
                     <footer id="footer">
     <div>
@@ -200,13 +192,11 @@ if (!doNotTrack) {
 
 
 
-    <script src='/js/douban.js'></script>
-
                 </div>
 
                 <div id="secondary">
     <section class="widget">
-        <form id="search" action='//www.google.com/search' method="get" accept-charset="utf-8" target="_blank" _lpchecked="1">
+        <form id="search" action='https://ZsZsZs25.github.io/search/' method="get" accept-charset="utf-8" target="_blank" _lpchecked="1">
       
       <input type="text" name="q" maxlength="20" placeholder="Search">
       <input type="hidden" name="sitesearch" value="https://ZsZsZs25.github.io">

@@ -13,7 +13,7 @@
       <pubDate>Tue, 09 Feb 2021 15:16:54 +0800</pubDate>
       
       <guid>https://ZsZsZs25.github.io/post/code/</guid>
-      <description>1 2 3 4 5  public class Solution{ public static void main(String[] args){ } }   </description>
+      <description>public class Solution{ public static void main(String[] args){ } }</description>
     </item>
     
     <item>
@@ -31,7 +31,7 @@
       <pubDate>Fri, 05 Feb 2021 14:02:41 +0800</pubDate>
       
       <guid>https://ZsZsZs25.github.io/post/test/</guid>
-      <description>二级标题 测试测试 English Test. Dream it possible. 测试测试 测试测试 $$ LLLLL $$ $$ LLLLL,\tag{1} $$</description>
+      <description>二级标题 测试测试 English Test. Dream it possible. 测试Markdown引用。 测试测试 测试测试 $$ LLLLL $$ $$ LLLLL,\tag{1} $$</description>
     </item>
     
   </channel>
