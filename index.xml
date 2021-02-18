@@ -16,15 +16,6 @@
     </item>
     
     <item>
-      <title></title>
-      <link>https://ZsZsZs25.github.io/post/recommendation/BPR-Bayesian-Personalized-Ranking-from-Implicit-Feedback/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>https://ZsZsZs25.github.io/post/recommendation/BPR-Bayesian-Personalized-Ranking-from-Implicit-Feedback/</guid>
-      <description>BPR: Bayesian Personalized Ranking from Implicit Feedback Abstract 在网页、电影和商品等项目集合中进行个性化排名预测的任务可称为项目推荐。在本文中，我们分析了最常见的隐式反馈场景，如点击和购买等。诸如矩阵分解（Matrix Factorization，M</description>
-    </item>
-    
-    <item>
       <title>搜索</title>
       <link>https://ZsZsZs25.github.io/search/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
