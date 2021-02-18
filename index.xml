@@ -5,33 +5,23 @@
     <link>https://ZsZsZs25.github.io/</link>
     <description>Recent content on ZsZsZs</description>
     <generator>Hugo -- gohugo.io</generator>
-    <language>zh-CN</language>
-    <lastBuildDate>Tue, 09 Feb 2021 15:16:54 +0800</lastBuildDate><atom:link href="https://ZsZsZs25.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <language>zh-CN</language><atom:link href="https://ZsZsZs25.github.io/index.xml" rel="self" type="application/rss+xml" />
     <item>
-      <title>Code</title>
-      <link>https://ZsZsZs25.github.io/post/code/</link>
-      <pubDate>Tue, 09 Feb 2021 15:16:54 +0800</pubDate>
+      <title>关于我</title>
+      <link>https://ZsZsZs25.github.io/about/</link>
+      <pubDate>Tue, 09 Feb 2021 15:47:14 +0000</pubDate>
       
-      <guid>https://ZsZsZs25.github.io/post/code/</guid>
-      <description>public class Solution{ public static void main(String[] args){ } }</description>
+      <guid>https://ZsZsZs25.github.io/about/</guid>
+      <description>菜鸡一个，希望能够通过博客监督自己。 既是博客，也是笔记，记录学习过程。 希望能对你有帮助。</description>
     </item>
     
     <item>
-      <title>Python</title>
-      <link>https://ZsZsZs25.github.io/post/python/</link>
-      <pubDate>Fri, 05 Feb 2021 21:51:23 +0800</pubDate>
+      <title></title>
+      <link>https://ZsZsZs25.github.io/post/recommendation/BPR-Bayesian-Personalized-Ranking-from-Implicit-Feedback/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>https://ZsZsZs25.github.io/post/python/</guid>
-      <description>Python Python是一门高级编程语言。 $$ Python $$ $$ \mathbb{Python} $$ 1 2</description>
-    </item>
-    
-    <item>
-      <title>Test</title>
-      <link>https://ZsZsZs25.github.io/post/test/</link>
-      <pubDate>Fri, 05 Feb 2021 14:02:41 +0800</pubDate>
-      
-      <guid>https://ZsZsZs25.github.io/post/test/</guid>
-      <description>二级标题 测试测试 English Test. Dream it possible. 测试Markdown引用。 测试测试 测试测试 $$ LLLLL $$ $$ LLLLL,\tag{1} $$</description>
+      <guid>https://ZsZsZs25.github.io/post/recommendation/BPR-Bayesian-Personalized-Ranking-from-Implicit-Feedback/</guid>
+      <description>BPR: Bayesian Personalized Ranking from Implicit Feedback Abstract 在网页、电影和商品等项目集合中进行个性化排名预测的任务可称为项目推荐。在本文中，我们分析了最常见的隐式反馈场景，如点击和购买等。诸如矩阵分解（Matrix Factorization，M</description>
     </item>
     
     <item>

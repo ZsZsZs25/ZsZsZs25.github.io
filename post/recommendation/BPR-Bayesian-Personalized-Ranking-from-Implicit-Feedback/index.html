@@ -1,0 +1,526 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    <meta name="referrer" content="no-referrer-when-downgrade">
+    
+
+    <title> | ZsZsZs</title>
+    <meta property="og:title" content=" - ZsZsZs">
+    <meta property="og:type" content="article">
+        
+        
+    <meta name="Keywords" content="菜">
+    <meta name="description" content="">
+        
+    <meta name="author" content="ZsZsZs">
+    <meta property="og:url" content="https://ZsZsZs25.github.io/post/recommendation/BPR-Bayesian-Personalized-Ranking-from-Implicit-Feedback/">
+    <link rel="shortcut icon" href='/favicon.ico'  type="image/x-icon">
+
+    <link rel="stylesheet" href='/css/normalize.css'>
+    <link rel="stylesheet" href='/css/style.css'>
+    <script type="text/javascript" src="//cdn.bootcdn.net/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+    
+    
+    
+        <link href="https://cdn.bootcdn.net/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.css" rel="stylesheet">
+    
+    
+    
+    
+</head>
+
+
+<body>
+    <header id="header" class="clearfix">
+    <div class="container">
+        <div class="col-group">
+            <div class="site-name ">
+                
+                    <a id="logo" href="https://ZsZsZs25.github.io">
+                        ZsZsZs
+                    </a>
+                
+                <p class="description">愿世间最美好的相遇是久别重逢</p>
+            </div>
+            <div>
+                <nav id="nav-menu" class="clearfix">
+                    <a class="current" href="https://ZsZsZs25.github.io">首页</a>
+                    
+                    <a  href="https://ZsZsZs25.github.io/post/" title="博客">博客</a>
+                    
+                    <a  href="https://ZsZsZs25.github.io/categories/" title="分类">分类</a>
+                    
+                    <a  href="https://ZsZsZs25.github.io/tags/" title="标签">标签</a>
+                    
+                    <a  href="https://ZsZsZs25.github.io/about/" title="关于">关于</a>
+                    
+                </nav>
+            </div>
+        </div>
+    </div>
+</header>
+
+    <div id="body">
+        <div class="container">
+            <div class="col-group">
+
+                <div class="col-8" id="main">
+                    
+<div class="res-cons">
+    
+    <article class="post">
+        <header>
+            <h1 class="post-title"></h1>
+        </header>
+        <date class="post-meta meta-date">
+            1年1月1日
+        </date>
+        
+        
+        <div class="post-meta">
+            <span id="busuanzi_container_page_pv">|<span id="busuanzi_value_page_pv"></span><span>
+                    阅读</span></span>
+        </div>
+        
+		<span class="post-word-count">, 6881 words</span>
+        
+        <div class="post-content">
+            <h2 id="bpr-bayesian-personalized-ranking-from-implicit-feedback">BPR: Bayesian Personalized Ranking from Implicit Feedback</h2>
+<h3 id="abstract">Abstract</h3>
+<p>在网页、电影和商品等项目集合中进行个性化排名预测的任务可称为项目推荐。在本文中，我们分析了最常见的隐式反馈场景，如点击和购买等。诸如矩阵分解（Matrix Factorization，MF）和自适应K近邻算法（K-Nearest-Neighbor，KNN）可用于个性化排序中的项目预测任务，但是它们并不是直接对排序进行优化。本文基于贝叶斯分析最大后验估计提出一种通用的个性化排序优化规范BPR-OPT及学习算法，其学习算法基于bootstrap采样，利用随机梯度下降计算。我们展示了如何将本文方法运用于MF和自适应KNN两种SOTA方法，并且实验表明本文方法在个性化排序任务的表现优于标准学习方法MF和KNN，该结果也显示了运用正确规范优化模型的重要性。</p>
+<h3 id="1-introduction">1 Introduction</h3>
+<p>现有工作大多基于显式反馈，但现实世界中反馈往往是隐式的。本文提出一种个性化排序的通用学习方法，主要贡献如下：</p>
+<ol>
+<li>基于贝叶斯分析最大后验估计提出一种通用的个性化排序优化规范BPR-OPT，并通过最大化ROC曲线下的面积进行分析；</li>
+<li>提出基于bootstrap采样，利用随机梯度下降计算的学习算法LEARNBPR用于最大化BPR-OPT，证明本文算法优于传统的标准梯度下降优化方法；</li>
+<li>展示了如何将LEARNBPR用于两种SOTA推荐模型；</li>
+<li>实验证明BPR在个性化排序方面优于其他学习方法。</li>
+</ol>
+<h3 id="2-related-work">2 Related Work</h3>
+<ul>
+<li>KNN协同过滤：利用Pearson相关系数启发式计算相似矩阵。</li>
+<li>矩阵分解：结合奇异值分解学习特征矩阵，但SVD容易过拟合。</li>
+<li>WR-MF：利用case weights进行正则化最小二乘优化，case weights可用于减小负样本的影响。</li>
+<li>Hofmann提出概率潜在语义模型。</li>
+<li>Schmidt-Thieme将推荐问题转换为多分类问题，使用一个二元分类器集合解决。</li>
+</ul>
+<p>但是上述工作并不是基于排序优化模型参数，只是预测项目是否会被用户选择，本文为个性化排序提出一种基于项目对的优化规范，比如两个项目之间的用户顺序。</p>
+<ul>
+<li>本文方法是offline的，可利用与MF基本一致的方法扩展为online。</li>
+<li>部分方法是非协同过滤的，但是它们只学习一个排序，即非个性化的；但本文方法是协同过滤的，为每个用户学习一个排序，所以是个性化的。</li>
+<li>即使在传统的推荐设置中，本文的个性化BPR模型性能也几乎高于非个性化排序的理论上限。</li>
+</ul>
+<h3 id="3-personalized-ranking">3 Personalized Ranking</h3>
+<p>个性化推荐的任务是为用户提供一个已排序的项目序列，所以也称为项目推荐。本文关注只能从隐式反馈中学习的场景，因为只有正反馈是可用的。未知用户-项目对表示用户仍未购买一个项目，属于真实负反馈（用户没有兴趣购买该项目）和缺失值（用户以后可能购买该项目）的混合。</p>
+<h4 id="31-formalization">3.1 Formalization</h4>
+<p><!-- raw HTML omitted --></p>
+<p>令$U$表示全体用户集合，$I$表示全体项目集合，$S\subseteq U\times I$为已知隐式反馈（如图1左所示），那么推荐系统的任务是向用户提供所有项目的个性化排序$&gt;_u\subset I^2$，其中$&gt;_u$表示一个全序集合，满足完整性、反对称性和传递性。</p>
+<ul>
+<li>完整性：$ \forall i,j\in I:i\neq j\Rightarrow i&gt;_u j \space\or\space j&gt;_u i $</li>
+<li>反对称性：$ \forall i,j\in I:i&gt;_u j \space\or\space j&gt;_u i\Rightarrow i=j $</li>
+<li>传递性：$ \forall i,j,k\in I:i&gt;_u j \space\or\space j&gt;_u k\Rightarrow i&gt;_u k $</li>
+</ul>
+<p>为方便起见设置如下定义：
+$$
+I_u^+:={i\in I:(u,i)\in S}\<br>
+U_i^+:={u\in U:(u,i)\in S}
+$$</p>
+<h4 id="32-analysis-of-the-problem-setting">3.2 Analysis of the problem setting</h4>
+<p><strong>隐式反馈性质</strong>：隐式反馈中只能观察到正例，其它数据为负例和缺失值的混合。一般解决方法是忽略二者之间的区别，但是会导致传统机器学习模型无法分辨，也无法学习。</p>
+<ul>
+<li><strong>传统预测</strong>：传统项目推荐一般为各个项目预测一个能够反映用户偏好的个性化得分$\hat{x}_{ui}$，再根据得分进行排序。</li>
+<li><strong>传统数据集构造</strong>：传统实现通常将$S$中的$(u,i)$对标记为正，预测为1；$(U\times I)\backslash S$则标记为负，训练时作为负反馈，预测为0。但如果模型可以完全fit数据，那么$(U\times I)\backslash S$对应输出值全为0，无法完成排序（正则化等预防过拟合机制可解决该问题）。</li>
+</ul>
+<p><!-- raw HTML omitted --></p>
+<p><strong>BPR思想</strong>：使用项目对作为训练数据，并且直接将项目对排序作为模型的优化目标。</p>
+<p>BPR假设用户更喜欢访问过的项目而不是未访问过的项目，均访问过或均未访问过的项目之间是相同的，比如图2所示。因此我们可以构造训练数据$D_S:U\times I\times I$：
+$$
+D_S:={(u,i,j)|i\in I_u^+\and j\in I \backslash I^+_u}
+$$
+$(u,i,j)\in D_S$表示用户$u$更喜欢$i$而不是$j$。由于$&gt;_u$是反对称的，因此负例将被隐式对待。</p>
+<p><strong>BPR优点</strong></p>
+<ul>
+<li>数据中包含正例、反例以及缺失值，其中<em>未知项目之间的缺失值即为后续必须排序的项目对</em>，因此训练集和测试集是不交叉的。</li>
+<li>训练数据是根据排序目标构造的。</li>
+</ul>
+<h3 id="4-bayesian-personalized-rankingbpr">4 Bayesian Personalized Ranking(BPR)</h3>
+<h4 id="41-bpr-optimization-criterion">4.1 BPR Optimization Criterion</h4>
+<p><strong>两大假设</strong></p>
+<ul>
+<li>用户之间的行为是独立的，即一个用户的偏好不会影响到其他用户。</li>
+<li>用户对不同项目的偏好是独立的，用户对一个项目的偏好不会影响其对其他项目的偏好。</li>
+</ul>
+<p>对所有项目$i\in I$进行正确个性化排序的贝叶斯形式为最大化下列后验概率
+$$
+p(\Theta|&gt;_u)\propto p(&gt;_u|\Theta)p(\Theta)
+$$
+其中$\Theta$为任意模型参数，$&gt;_u$为用户$u$的目的偏好。根据两大假设，似然函数$p(&gt;<em>u|\Theta)$可简化为所有用户的概率乘积（上标应该都是$(u,i,j)$）。
+$$
+\prod</em>{u\in U} p(&gt;<em>u|\Theta)=\prod</em>{(u,i,j)\in U\times I\times I}p(i&gt;<em>u j|\Theta)^{\delta((u,i,j)\in D_S)}\cdot (1-p(i&gt;<em>u j|\Theta))^{\delta((u,i,j)\notin D_S)}
+$$
+其中$\delta$为指示函数：
+$$
+\delta (b):=
+\begin{cases}
+1 &amp; \text{if $b$ is true,} \<br>
+0 &amp; \text{else}
+\end{cases}
+$$
+由完整性和反对称性，上式可简化为：
+$$
+\prod</em>{u\in U}p(&gt;<em>u |\Theta)=\prod</em>{(u,i,j)\in D_S}p(i&gt;<em>u j|\Theta)
+$$
+为了满足上述全序的三种性质，定义如下代表用户在$i,j$中更喜欢项目$i$的独立概率为：
+$$
+p(i&gt;<em>uj|\Theta):=\sigma(\hat{x}</em>{uij}(\Theta))
+$$
+其中$\sigma$为logistic函数：
+$$
+\sigma(x):=\frac{1}{1+e^{-x}}
+$$
+其中模型参数$\Theta$用于捕捉用户$u$、项目$i$和项目$j$之间的关系，$\hat{x}</em>{uij}(\Theta)$为$\Theta$的任意实值函数。因此BPR框架将模型表示为$u$，$i$，$j$之间的关系，其中模型可以是MF或kNN，用于估计$\hat{x}</em>{uij}(\Theta)$。</p>
+<p>为了补全上述贝叶斯形式，引入先验概率$p(\Theta)$，其为期望为0，协方差矩阵为$\sum_{\Theta}$的正态分布$p(\Theta)\sim N(0,\sum_{\Theta})$。</p>
+<blockquote>
+<p>多维正态分布，可以参考：</p>
+<ul>
+<li><a href="https://www.cnblogs.com/bigmonkey/p/11379144.html">https://www.cnblogs.com/bigmonkey/p/11379144.html</a></li>
+<li><a href="http://m.bubuko.com/infodetail-1827895.html">http://m.bubuko.com/infodetail-1827895.html</a></li>
+</ul>
+</blockquote>
+<p>为降低未知参数数，令$\sum_{\Theta}=\lambda_{\Theta}I$。最后得到个性化排序一般优化规范的最大后验估计如下。
+$$
+\begin{align}
+\text{BPR-OPT} &amp;:= \text{ln}\space p(\Theta|&gt;_u)\<br>
+&amp;=\text{ln}\space p(&gt;_u|\Theta)p(\Theta)\<br>
+&amp;=\text{ln}\space \prod_{(u,i,j)\in D_S}\sigma(\hat{x}_{uij}) p(\Theta)\<br>
+&amp;=\sum_{(u,i,j)\in D_S}\text{ln}\space\sigma(\hat{x}_{uij})+\text{ln}\space p(\Theta)\<br>
+&amp;=\sum_{(u,i,j)\in D_S}\text{ln}\space\sigma(\hat{x}_{uij})-\lambda_{\Theta}\lVert\Theta\rVert^2
+\end{align}
+$$
+其中$\lambda_{\Theta}$为模型正则化参数。</p>
+<blockquote>
+<p>BPR-OPT的公式应该少了两项，可能为了简化公式。</p>
+</blockquote>
+<h5 id="411-analogies-to-auc-optimization">4.1.1 Analogies to AUC optimization</h5>
+<p>单个用户$u$的AUC定义为：
+$$
+\text{AUC}(u):=\frac{1}{|I_u^+||I\backslash I_u^+|}\sum_{i\in I^+_u}\sum_{j\in |I\backslash I^+_u|}\delta(\hat{x}_{uij}&gt;0)
+$$
+平均AUC为：
+$$
+\text{AUC}:=\frac{1}{\lvert U \rvert}\sum_{u\in U}AUC(u)
+$$
+只考虑数据集$D_S$时，用户$u$的AUC可写为：
+$$
+\text{AUC}(u)=\sum_{(u,i,j)\in D_S}z_u\delta(\hat{x}_{uij}&gt;0)\tag{1}
+$$
+其中$z_u$为normalize常数：
+$$
+z_u=\frac{1}{|U||I_u^+||I\backslash I_u^+|}
+$$
+式（1）和BPR-OPT的区别主要为normalize常数和损失函数，AUC使用不可微函数$\delta$，比如Heaviside函数：
+$$
+\delta(x&gt;0)=H(x):=\begin{cases}
+1, &amp; x&gt;0 \<br>
+0, &amp; \text{else}
+\end{cases}
+$$
+而BPR-OPT则使用可微函数$\sigma(x)$。实际优化AUC时一般都会替换掉不可微函数，使用与$\sigma(x)$相似的启发式函数，如图3所示BPR使用的$\text{ln}\space\sigma(x)$便受到MLE（极大似然估计）的启发。</p>
+<p><!-- raw HTML omitted --></p>
+<h4 id="42-bpr-learning-algorithm">4.2 BPR Learning Algorithm</h4>
+<p>标准梯度下降不能完成个性化排名任务，而基于bootstrap采样的随机梯度下降算法的LEARNBPR可以有效解决这一问题（如图4所示）。</p>
+<blockquote>
+<p>其中第5行参数更新是负号变号后得到正号。</p>
+</blockquote>
+<p><!-- raw HTML omitted --></p>
+<p>首先，BPR-OPT模型的梯度如下：
+$$
+\begin{align}
+\frac{\partial\text{BPR-OPT}}{\partial\Theta} &amp; =\sum_{(u,i,j)\in D_S}\frac{\partial}{\partial\Theta}\text{ln}\space\sigma(\hat{x}_{uij})-
+\lambda_{\Theta}\frac{\partial}{\partial\Theta}\lVert \Theta \rVert^2 \<br>
+&amp; \propto\sum_{(u,i,j)\in D_S}\frac{-e^{-\hat{x}_{uij}}}{1+e^{-\hat{x}_{uij}}}\cdot\frac{\partial}{\partial\Theta}\hat{x}_{uij}-\lambda_\Theta\Theta
+\end{align}
+$$
+常用的两种梯度更新方式：全梯度下降和随机梯度下降。</p>
+<p>全梯度下降计算全部训练数据的梯度，并通过学习率$\alpha$更新模型参数：
+$$
+\Theta\leftarrow\Theta-\alpha\frac{\partial\text{BPR-OPT}}{\partial\Theta}
+$$
+全梯度下降能够获得最优解，但收敛速度慢，$D_S$中训练数据大（$O(|S||I|)$）进一步降低了收敛速度。当项目$i$与所有用户存在交互，那么每个用户$u$中样本$i$与其负样本$j$中都存在$&gt;_u$关系，其对应数据对梯度影响较大，正则化操作也较难。</p>
+<p>随机梯度下降则根据每一个训练样本$(u,i,j)$更新参数。
+$$
+\Theta\leftarrow\Theta+\alpha\left(\frac{e^{-\hat{x}<em>{uij}}}{1+e^{-\hat{x}</em>{uij}}}\cdot \frac{\partial}{\partial\Theta}\hat{x}<em>{uij}+\lambda</em>\Theta\Theta \right)
+$$
+而其中训练样本的访问顺序很关键，按用户顺序（user-wise）和项目顺序（item-wise）会导致收敛性能低，因此容易在同一用户-项目对上连续多次进行更新。</p>
+<p>因此本文按正态分布随机采样，随机梯度下降更新参数，降低在同一用户-项目对上连续更新的概率。另外，本文采用有放回的bootstrap采样，因此可以在任意步内停止。最后根据观察到的正反馈$S$数量线性评估所需的更新步数。</p>
+<p>图5为经典user-wise随机梯度下降与基于bootstrapping的LEARNBPR方法所需更新步数对比，其中BPR-MF维度为16。可以看到LEARNBPR收敛速度要快得多。</p>
+<p><!-- raw HTML omitted --></p>
+<h4 id="43-learning-models-with-bpr">4.3 Learning models with BPR</h4>
+<p>介绍如何利用BPR学习MF和kNN，两者都对用户对项目的偏好建模，为每个用户-项目对输出实值$\hat{x}_{ul}$作为预测值。</p>
+<p>由于BPR优化中数据为三元组$(u,i,j)$，因此需要先分解定义估计函数$\hat{x}<em>{uij}$：
+$$
+\hat{x}</em>{uij}:=\hat{x}<em>{ui}-\hat{x}</em>{uj}
+$$
+接下来可以在此基础上运用其它标准协同过滤模型预测$\hat{x}_{ul}$。</p>
+<p>BPR直接对排序进行优化，不只是回归预测实值$\hat{x}<em>{ul}$，而是尽力最大化两个输出值$\hat{x}</em>{ui}-\hat{x}_{uj}$之间的区别。</p>
+<h5 id="431-matrix-factorization">4.3.1 Matrix Factorization</h5>
+<p>$\hat{x}<em>{ui}$预测问题可以看作矩阵分解操作$X:U\times I$，MF可通过两个低维矩阵$W:|U|\times k$和$H:|I|\times k$的乘积近似估计目标矩阵$X$：
+$$
+\hat{X}:=WH^t
+$$
+其中$k$为近似操作的维度。$W$中每一行$w_u$为为用户特征向量，$H$中每一行$h_i$为项目特征向量，因此预测形式可以细化为：
+$$
+\hat{x}</em>{ui}=\langle w_u,h_i \rangle = \sum_{f=1}^{k}w_{uf}\cdot h_{if}
+$$
+除去广泛使用的点积运算，模型参数可以记为$\Theta=(W,H)$，用来描述用户未知偏好和项目未知性质。</p>
+<p>一般利用奇异值分解（SVD）和最小二乘法估计$X$得到$\hat{X}$，但是SVD往往会导致过拟合，因此产生部分改进方法正则化最小二乘优化、非负分解以及最大间隔分解等等。</p>
+<p>因此，需要根据BPR-OPT进行优化，也就是LEARNBPR算法，并且只需要计算$\hat{x}<em>{uij}$对各参数$\theta$的梯度。在矩阵分解中其偏导数可写为：
+$$
+\frac{\partial}{\partial\theta}\hat{x}</em>{uij}=
+\begin{cases}
+(h_{if}-h_{jf}) &amp; \text{if}\space\theta=w_{uf},\<br>
+w_{uf} &amp; \text{if}\space\theta=h_{if},\<br>
+-w_{uf} &amp; \text{if}\space\theta=h_{jf},\<br>
+0 &amp; \text{else}
+\end{cases}
+$$
+另外，还使用三个正则化常数：$\lambda_W$用于用户特征$W$；项目特征中$\lambda_{H^+}$用于在$h_{if}$上正更新，$\lambda_{H^-}$用于在$h_{jf}$上负更新。</p>
+<h5 id="432-adaptive-k-nearest-neighbor">4.3.2 Adaptive k-Nearest-Neighbor</h5>
+<p>最近邻算法计算项目（基于项目的）或用户（基于用户的）之间的相似度，两种方法之间原理相似，但基于项目方法结果更好。主要思想是计算项目$i$与用户已知的所有项目（$I_u^+$）之间的相似度来预测用户$u$和项目$i$的关系。通常只考虑$I_u^+$中前$k$个最相似的项目（邻居），如果谨慎选择项目之间的相似度，也可以与$I_u^+$中所有项目比较。因此基于项目的kNN模型项目预测公式为：
+$$
+\hat{x}<em>{ui}=\sum</em>{l\in I_u^+ \and l\neq i}c_{il}
+$$
+其中$C:I\times I$为对称项目相关性（项目相似性）矩阵，因此kNN的模型参数$\Theta=C$。</p>
+<p>一般采用启发式相似计算策略来选择参数$C$，比如cosine向量相似度：
+$$
+c_{i,j}^{\text{cosine}}:=\frac{\lvert U_i^+\cap U_j^+ \rvert}{\sqrt{\lvert U_i^+\cdot U_j^+ \rvert}}
+$$
+但更好的方法是学习参数$C$，也就是直接将$C$作为模型参数。如果项目数过多，可以分解学习$C=HH^t$，其中$H:I\times k$。BPR选择不分解，直接学习参数$C$。</p>
+<p>使用BPR优化策略和LEARNBPR算法，$x_{uij}$对模型参数$C$的梯度为：
+$$
+\frac{\partial}{\partial\theta}\hat{x}_{uij}=
+\begin{cases}
++1 &amp; \text{if}\space\theta\in{c_{il},c_{li}}\space\and\space l\in I_u^+ \space l\neq i,\<br>
+-1 &amp; \text{if}\space\theta\in{c_{jl},c_{lj}}\space\and\space l\in I_u^+ \space l\neq j,\<br>
+0 &amp; \text{else}
+\end{cases}
+$$
+同样使用两个正则化常数，$\lambda_{+}$用于更新$c_{il}$，$\lambda_{-}$用于更新$c_{jl}$。</p>
+<h3 id="5-relations-to-other-methods">5 Relations to other methods</h3>
+<p>介绍BPR排序与MF和kNN之间的联系。</p>
+<h4 id="51-weighted-regularized-matrix-factorization-wr-mf">5.1 Weighted Regularized Matrix Factorization (WR-MF)</h4>
+<p>Pan和Hu等人均提出过利用MF对隐式反馈进行项目预测，因此其模型类型与4.3.1所述相同。该方法利用SVD最小化平方损失，通常会利用正则项预防过拟合和错误函数的权重增加正反馈的影响。因此优化目标为：
+$$
+\sum_{u\in U}\sum_{i\in I}c_{ui}(\langle w_u,h_i\rangle - 1)^2+\lambda\lVert W \rVert^2_f+\lambda\lVert H \rVert^2_f
+$$
+其中$c_{ui}$并不是模型参数而是各对元组$(u,i)$的先验概率。Hu使用额外数据验证正反馈部分的$c_{ui}$，其余数据则设置$c_{ui}=1$。Pan等人则设置正反馈$c_{ui}=1$，其它设置为小于1的常数。</p>
+<p>该方法只是单个项目层次而不是项目对层次，因此其优化方法和基于正态分布随机变量的MLE是对应的。但是，项目预测并不是一个定量的项目回归问题，而是一个定性的分类问题，因此logistic优化会更合适。</p>
+<p>WR-MF的一个优点是当$c_{ui}$对于非负项目对为常数时，其可以在$O(\text{iter}(|S|k^2+k^3(|I|+|U|)))$学习。本文实验表明即使还有更多的三元组数据集，LEARNBPR通常在经过$m\cdot |S|$次单步更新的下采样后就会收敛。</p>
+<h4 id="52-maximum-margin-matrix-factorization-mmmf">5.2 Maximum Margin Matrix Factorization (MMMF)</h4>
+<p>Weimer针对显式数据设计MMMF进行排序。即使MMMF并不能扩展到隐式数据，也可以设置所有未知项目评分为0，已知项目为1，从而可以和BPR MF类似地优化：
+$$
+\sum_{(u,i,j)\in D}\text{max}(0,1-\langle w_u,h_i-h_j\rangle)+\lambda_w\lVert W \rVert_f^2+\lambda_h\lVert H \rVert^2_f
+$$
+其中一个不同是本文方法采用的hinge错误函数更平滑，并通过MLE激励。另外，BPR-OPT更通用，可用于多个模型，而MMMF只适用于MF。另外，MMMF主要解决稀疏显式数据，其假设数据中存在大量缺失值，项目对也比隐式设定中要少得多。如果该方法用于隐式反馈数据，那么数据会按照上述过程稠密化，最后$D_S$中数据对数量为$O(|S|I)$。LEARNBPR通过bootstrapping可以解决上述问题。</p>
+<h3 id="6-evaluation">6 Evaluation</h3>
+<p><strong>对比对象</strong></p>
+<ul>
+<li>MF：SVD-MF、WR-MF、BPR-MF</li>
+<li>kNN：Cosine-kNN、BPR-kNN</li>
+</ul>
+<p>另外，most-popular用户独立地看待各个项目，因此本文将其作为baseline，即$\hat{x}<em>{ui}^{\text{most-pop}}:=|U_i^+|$。并且，本文给出任意非个性化排序方法的理论AUC上限（$\text{np}</em>{\text{max}}$）。</p>
+<h4 id="61-datasets">6.1 Datasets</h4>
+<ul>
+<li>Rossmaan：在线购物数据，包含10000位用户与4000个商品的426612次交易记录。</li>
+<li>Netfix DVD租借记录：包含用户评分数据，评分等级分为1-5级。作为隐式数据时，需要删除评分，转变为用户是否可能对某部电影评分，进一步得到用户可能评分的个性化排序列表。</li>
+</ul>
+<p>在Netfix数据中下采样得到包含10000用户和5000项目之间565738个评分行为的数据集，保证每个用户包含至少10个项目（$\forall u\in U:|I_u^+|\ge 10$），每个项目也至少有10个用户（$\forall i\in I:|U_i^+|\ge 10$）。</p>
+<h4 id="62-evaluation-methodology">6.2 Evaluation Methodology</h4>
+<p>使用leave-one验证模式，从每个用户的历史记录中随机移除一个用户-项目对，即每个用户都从$I_u^+$中删除一个样本，使得训练集$S_{\text{train}}$和测试集$S_{\text{test}}$互不相交。模型在$S_{\text{train}}$上训练，在$S_{\text{test}}$上通过平均AUC预测个性化排序：
+$$
+\text{AUC}=\frac{1}{|U|}\sum_{u}\frac{1}{|E(u)|}\sum_{(i,j)\in E(u)}\delta(\hat{x}_{ui}&gt;\hat{x}_{uj})\tag{2}
+$$
+其中每个用户$u$所需的验证用户-项目对为：
+$$
+E(u):={ (i,j)|(u,i)\in S_{\text{test}}\and (u,j)\notin (S_{\text{test}}\cup S_{\text{train}}) }
+$$
+AUC值越大，性能越好。随机猜测模型的AUC值为0.5，AUC值最高为1。</p>
+<p>重复10轮测试，每一轮都重新划分训练/测试集，第一轮时通过网格搜索确定最优超参数，之后保持不变。</p>
+<h4 id="63-results-and-discussion">6.3 Results and Discussion</h4>
+<p><!-- raw HTML omitted --></p>
+<p>图6为所有模型在两个数据集上的AUC结果。BPR优化方法优于其他所有方法，即使模型相同，BPR优化也要更好，比如SVD-MF、WR-MF和BPR-MF。</p>
+<h4 id="64-non-personalized-ranking">6.4 Non-personalized ranking</h4>
+<p>非个性化排序中，所有用户的排序关系$&gt;$都是一样的，对应的理论上限$\text{np}<em>{\text{max}}$可以通过在$S</em>{\text{test}}$上优化$&gt;$得到。图6显示，即使是简单的Cosine-kNN也优于$\text{np}_{\text{max}}$，当然也大幅优于其它非个性化排序方法。</p>
+<h3 id="7-conclusion">7 Conclusion</h3>
+<ul>
+<li>提出一种通用优化策略BPR-OPT以及个性化排序学习算法LEARNBPR。
+<ul>
+<li>BPR-OPT为贝叶斯最大后验概率估计。</li>
+<li>基于bootstrapping采样的随机梯度下降学习算法LEARNBPR。</li>
+</ul>
+</li>
+<li>证明了该通用优化策略适用于MF和kNN，并且能够提升性能。</li>
+<li>实验证明模型性能不止依赖于模型，还取决于优化策略，比如BPR。</li>
+</ul>
+<hr>
+<h3 id="总结">总结</h3>
+<p>BPR不再只根据模型为每个项目输出的预测分数排序，而是<strong>利用贝叶斯最大后验估计直接优化项目顺序，最大化用户与不同项目的分数差异</strong>。为了获得对应的隐式数据，BPR重新构造了数据集，某种意义上也可以看作对数据集的扩展。另外，BPR也可以与MF和kNN等方法结合，提高性能。</p>
+<p>虽然BPR中提出的两个独立性假设在现在不再成立，但是其思想很值得学习。</p>
+
+        </div>
+
+        
+<div class="post-archive">
+    <ul class="post-copyright">
+        <li><strong>原文作者：</strong><a rel="author" href="https://ZsZsZs25.github.io">ZsZsZs</a></li>
+        <li style="word-break:break-all"><strong>原文链接：</strong><a href="https://ZsZsZs25.github.io/post/recommendation/BPR-Bayesian-Personalized-Ranking-from-Implicit-Feedback/">https://ZsZsZs25.github.io/post/recommendation/BPR-Bayesian-Personalized-Ranking-from-Implicit-Feedback/</a></li>
+        <li><strong>版权声明：</strong>本作品采用<a rel="license" href="https://creativecommons.org/licenses/by-nc-nd/4.0/">知识共享署名-非商业性使用-禁止演绎 4.0 国际许可协议</a>进行许可，非商业转载请注明出处（作者，原文链接），商业转载请联系作者获得授权。</li>
+    </ul>
+</div>
+<br/>
+
+
+
+        
+
+<div class="post-archive">
+    <h2>其它文章</h2>
+    <ul class="listing">
+        
+			<li><a href="/about/">关于我</a></li>
+		
+    </ul>
+</div>
+
+
+        <div class="post-meta meta-tags">
+            
+            没有标签
+            
+        </div>
+    </article>
+    
+    
+
+    
+    
+    <div class="post bg-white">
+      <script src="https://utteranc.es/client.js"
+            repo= "ZsZsZs25/ZsZsZs25.github.io"
+            issue-term="pathname"
+            theme="github-light"
+            crossorigin="anonymous"
+            async>
+      </script>
+    </div>
+    
+</div>
+
+                    <footer id="footer">
+    <div>
+        &copy; 2021 <a href="https://ZsZsZs25.github.io">ZsZsZs By ZsZsZs</a>
+        
+    </div>
+    <br />
+    <div>
+        <div class="github-badge">
+            <a href="https://gohugo.io/" target="_black" rel="nofollow"><span class="badge-subject">Powered by</span><span class="badge-value bg-blue">Hugo</span></a>
+        </div>
+        <div class="github-badge">
+            <a href="https://www.flysnow.org/" target="_black"><span class="badge-subject">Design by</span></a>
+			
+        </div>
+        <div class="github-badge">
+            <a href="https://github.com/flysnow-org/maupassant-hugo" target="_black"><span class="badge-subject">Theme</span><span class="badge-value bg-yellowgreen">Maupassant</span></a>
+        </div>
+    </div>
+</footer>
+
+
+    
+    <script type="text/javascript">
+        window.MathJax = {
+            tex2jax: {
+                inlineMath: [['$', '$']],
+                processEscapes: true
+                }
+            };
+    </script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML' async></script><script src="https://cdn.bootcdn.net/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.js"></script>
+
+<a id="rocket" href="#top"></a>
+<script type="text/javascript" src='/js/totop.js?v=0.0.0' async=""></script>
+
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'GA ID', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+
+
+    <script type="text/javascript" src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" async></script>
+
+
+
+
+                </div>
+
+                <div id="secondary">
+    <section class="widget">
+        <form id="search" action='https://ZsZsZs25.github.io/search/' method="get" accept-charset="utf-8" target="_blank" _lpchecked="1">
+      
+      <input type="text" name="q" maxlength="20" placeholder="Search">
+      <input type="hidden" name="sitesearch" value="https://ZsZsZs25.github.io">
+      <button type="submit" class="submit icon-search"></button>
+</form>
+    </section>
+    
+    <section class="widget">
+        <h3 class="widget-title">最近文章</h3>
+<ul class="widget-list">
+    
+    <li>
+        <a href="https://ZsZsZs25.github.io/post/recommendation/BPR-Bayesian-Personalized-Ranking-from-Implicit-Feedback/" title=""></a>
+    </li>
+    
+</ul>
+    </section>
+
+    
+
+    <section class="widget">
+        <h3 class="widget-title"><a href='/categories/'>分类</a></h3>
+<ul class="widget-list">
+    
+</ul>
+    </section>
+
+    <section class="widget">
+        <h3 class="widget-title"><a href='/tags/'>标签</a></h3>
+<div class="tagcloud">
+    
+</div>
+    </section>
+
+    
+	
+	
+</div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
